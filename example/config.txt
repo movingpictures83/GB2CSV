@@ -1,0 +1,2 @@
+Prefix plugins/GB2CSV/example
+Plugin GB2CSV inputfile sequence.gb outputfile sequence.csv
