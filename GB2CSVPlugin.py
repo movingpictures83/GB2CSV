@@ -52,10 +52,18 @@ class GB2CSVPlugin:
            entry = entry[len("complement")+1:len(entry)-1]  # Strip complement
            self.GBentries[currentgene]['+/-'] = "-"
         if (entry.startswith("join")):
-           self.GBentries[currentgene]['start'] = entry[entry.find('(')+1:entry.find('.')]
-           self.GBentries[currentgene]['end'] = entry[entry.find('..')+2:entry.find(',')]
-           self.GBentries[currentgene]['wstart'] = entry[entry.find(',')+1:entry.rfind('..')]
-           self.GBentries[currentgene]['wend'] = entry[entry.rfind('..')+2:len(entry)-1]
+           firstend = int(entry[entry.find('..')+2:entry.find(',')])
+           secondend = int(entry[entry.rfind('..')+2:len(entry)-1])
+           if (secondend > firstend):
+              self.GBentries[currentgene]['start'] = entry[entry.find('(')+1:entry.find('.')]
+              self.GBentries[currentgene]['end'] = str(secondend)
+              self.GBentries[currentgene]['wstart'] = ""
+              self.GBentries[currentgene]['wend'] = ""
+           else:
+              self.GBentries[currentgene]['start'] = entry[entry.find('(')+1:entry.find('.')]
+              self.GBentries[currentgene]['end'] = entry[entry.find('..')+2:entry.find(',')]
+              self.GBentries[currentgene]['wstart'] = entry[entry.find(',')+1:entry.rfind('..')]
+              self.GBentries[currentgene]['wend'] = entry[entry.rfind('..')+2:len(entry)-1]
            pass
         else: # regular, no join
            self.GBentries[currentgene]['start'] = entry[entry.find('(')+1:entry.find('.')]
